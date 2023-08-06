@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Blog Content Management Tool</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .editor {
+      border: 2px solid #0c0909;
+      padding: 10px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+      background-color: azure;
+    }
+    img, video {
+      max-width: 100%;
+      height: auto;
+    }
+    button {
+        display: inline-block;
+      padding: 12px 24px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      overflow: hidden;
+      position: relative;
+      transition: background-color 0.3s;
+    }
+    button:hover{
+        background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <div class="editor">
+    <h2>Blog Editor</h2>
+    <textarea id="blogContent" rows="10" cols="80"></textarea>
+    <button onclick="addText()">Add Text</button>
+    <button onclick="addImage()">Add Image</button>
+    <button onclick="addVideo()">Add Video</button>
+  </div>
+
+  <div class="add-image-section">
+    <h3>Add Image</h3>
+    <input type="file" id="imageFileInput" accept="image/*">
+    <button onclick="addLocalImage()">Add Local Image</button>
+  </div>
+
+  <div class="add-video-section">
+    <h3>Add Video</h3>
+    <input type="file" id="videoFileInput" accept="video/mp4,video/mkv">
+    <button onclick="addLocalVideo()">Add Local Video</button>
+  </div>
+
+  <div class="preview">
+    <h2>Preview</h2>
+    <div id="blogPreview"></div>
+  </div>
+
+  <script>
+    function addText() {
+      const text = prompt("Enter the text:");
+      if (text) {
+        const blogContent = document.getElementById("blogContent");
+        blogContent.value += text + "\n";
+        updatePreview();
+      }
+    }
+
+    function addImage() {
+      // Code to open image URL prompt (similar to previous example)
+    }
+
+    function addVideo() {
+      // Code to open video URL prompt (similar to previous example)
+    }
+
+    function addLocalImage() {
+      const imageFileInput = document.getElementById("imageFileInput");
+      const file = imageFileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const imageUrl = event.target.result;
+          const blogContent = document.getElementById("blogContent");
+          blogContent.value += `<img src="${imageUrl}" alt="Image">\n`;
+          updatePreview();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function addLocalVideo() {
+      const videoFileInput = document.getElementById("videoFileInput");
+      const file = videoFileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const videoUrl = event.target.result;
+          const blogContent = document.getElementById("blogContent");
+          blogContent.value += `<video controls><source src="${videoUrl}" type="video/mp4"></video>\n`;
+          updatePreview();
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function updatePreview() {
+      const blogContent = document.getElementById("blogContent").value;
+      const blogPreview = document.getElementById("blogPreview");
+      blogPreview.innerHTML = blogContent;
+    }
+  </script>
+</body>
+</html>
+
